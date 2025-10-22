@@ -4,15 +4,15 @@
 
 <head><head>
 
-    <meta charset="UTF-8" />    <meta charset="UTF-8" />
+    <meta charset="UTF-8" />   
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
 
-    <meta name="description" content="Your private diary on the Linera blockchain - secure, decentralized, and yours forever." />    <meta name="description" content="Your private diary on the Linera blockchain - secure, decentralized, and永 yours forever." />
+    <meta name="description" content="Your private diary on the Linera blockchain - secure, decentralized, and yours forever." />    
 
-    <title>Linera Diary - Your Secret Diary on Blockchain</title>    <title>Linera Diary - Your Secret Diary on Blockchain</title>
+    <title>Linera Diary - Your Secret Diary on Blockchain</title>   
 
-    <link rel="stylesheet" href="styles.css" />    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles.css" />    
 
 </head></head>
 
@@ -20,204 +20,202 @@
 
 
 
-    <header class="header">    <header class="header">
+    <header class="header">    
 
-        <nav class="nav-container">        <nav class="nav-container">
+        <nav class="nav-container">        
 
-            <a href="#" class="logo">            <a href="#" class="logo">
+            <a href="#" class="logo">            
 
-                <span class="logo-icon">📔</span>                <span class="logo-icon">📔</span>
+                <span class="logo-icon">📔</span>                
 
-                <span>Linera Diary</span>                <span>Linera Diary</span>
+                <span>Linera Diary</span>               
 
-            </a>            </a>
+            </a>                    
 
-                        
+            <div class="nav-actions">           
 
-            <div class="nav-actions">            <div class="nav-actions">
+                <button id="lockBtn" class="btn btn-sm btn-outline hidden">              
 
-                <button id="lockBtn" class="btn btn-sm btn-outline hidden">                <button id="lockBtn" class="btn btn-sm btn-outline hidden">
+                    🔒 Lock Diary                
 
-                    🔒 Lock Diary                    🔒 Lock Diary
+                </button>             
 
-                </button>                </button>
+                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">             
 
-                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+                    <span id="themeIcon">🌙</span>                 
 
-                    <span id="themeIcon">🌙</span>                    <span id="themeIcon">🌙</span>
+                </button>               
 
-                </button>                </button>
+            </div>         
 
-            </div>            </div>
+        </nav>      
 
-        </nav>        </nav>
-
-    </header>    </header>
+    </header>   
 
 
 
-    <main class="main-content">    <main class="main-content">
+    <main class="main-content">   
 
-        <div class="container">        <div class="container">
+        <div class="container">       
 
-            <!-- Status Messages -->            <!-- Status Messages -->
+            <!-- Status Messages -->           
 
-            <div id="status" class="status status-info hidden">            <div id="status" class="status status-info hidden">
+            <div id="status" class="status status-info hidden">          
 
-                Connecting...                Connecting...
+                Connecting...             
 
-            </div>            </div>
+            </div>           
 
 
-            <section class="hero">            <section class="hero">
+            <section class="hero">          
 
-                <h1 class="hero-title">Your Secret Diary on the Blockchain</h1>                <h1 class="hero-title">Your Secret Diary on the Blockchain</h1>
+                <h1 class="hero-title">Your Secret Diary on the Blockchain</h1>             
 
-                <p class="hero-subtitle">Private. Secure. Decentralized. Forever Yours.</p>                <p class="hero-subtitle">Private. Secure. Decentralized. Forever Yours.</p>
+                <p class="hero-subtitle">Private. Secure. Decentralized. Forever Yours.</p>             
 
                 <p class="hero-description">                <p class="hero-description">
 
-                    Store your thoughts, memories, and dreams on the Linera blockchain.                     Store your thoughts, memories, and dreams on the Linera blockchain. 
+                    Store your thoughts, memories, and dreams on the Linera blockchain.                  
 
-                    Your entries are encrypted and only you can read them.                    Your entries are encrypted and only you can read them.
+                    Your entries are encrypted and only you can read them.                
 
-                </p>                </p>
+                </p>            
 
-            </section>            </section>
+            </section>            
 
 
-            <section id="initSection" class="section hidden">            <section id="initSection" class="section hidden">
+            <section id="initSection" class="section hidden">         
 
-                <div class="card" style="max-width: 600px; margin: 0 auto;">                <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <div class="card" style="max-width: 600px; margin: 0 auto;">              
 
-                    <div class="card-header">                    <div class="card-header">
+                    <div class="card-header">                  
 
-                        <h2 class="card-title">                        <h2 class="card-title">
+                        <h2 class="card-title">                       
 
-                            <span>🔐</span>                            <span>🔐</span>
+                            <span>🔐</span>                            
 
-                            Create Your Secret Diary                            Create Your Secret Diary
+                            Create Your Secret Diary                        
 
-                        </h2>                        </h2>
+                        </h2>                      
 
-                        <p class="card-description">                        <p class="card-description">
+                        <p class="card-description">                      
 
-                            Choose a strong secret phrase to protect your diary.                             Choose a strong secret phrase to protect your diary. 
+                            Choose a strong secret phrase to protect your diary.                        
 
-                            This phrase will be required to write new entries and read existing ones.                            This phrase will be required to write new entries and read existing ones.
+                            This phrase will be required to write new entries and read existing ones.                        
 
-                            Remember it well - it cannot be recovered!                            Remember it well - it cannot be recovered!
+                            Remember it well - it cannot be recovered!                          
 
-                        </p>                        </p>
+                        </p>                  
 
-                    </div>                    </div>
+                    </div>                   
 
                                         
 
-                    <form id="initForm">                    <form id="initForm">
+                    <form id="initForm">                
 
-                        <div class="form-group">                        <div class="form-group">
+                        <div class="form-group">               
 
-                            <label for="secretPhrase" class="form-label">                            <label for="secretPhrase" class="form-label">
+                            <label for="secretPhrase" class="form-label">                          
 
-                                Secret Phrase (minimum 8 characters)                                Secret Phrase (minimum 8 characters)
+                                Secret Phrase (minimum 8 characters)                           
 
-                            </label>                            </label>
+                            </label>                       
 
-                            <input                            <input
+                            <input                            
 
-                                type="password"                                type="password"
+                                type="password"                               
 
-                                id="secretPhrase"                                id="secretPhrase"
+                                id="secretPhrase"                             
 
-                                class="form-input"                                class="form-input"
+                                class="form-input"                              
 
-                                placeholder="Enter a memorable secret phrase..."                                placeholder="Enter a memorable secret phrase..."
+                                placeholder="Enter a memorable secret phrase..."                            
 
-                                minlength="8"                                minlength="8"
+                                minlength="8"                             
 
-                                required                                required
+                                required                              
 
-                            />                            />
+                            />                        
 
-                            <p class="form-helper">                            <p class="form-helper">
+                            <p class="form-helper">                         
 
-                                💡 Tip: Use a phrase you'll remember but others can't guess                                💡 Tip: Use a phrase you'll remember but others can't guess
+                                💡 Tip: Use a phrase you'll remember but others can't guess                             
 
-                            </p>                            </p>
+                            </p>                          
 
-                        </div>                        </div>
+                        </div>                      
 
                                                 
 
-                        <div class="card-footer">                        <div class="card-footer">
+                        <div class="card-footer">                     
 
-                            <button type="submit" class="btn btn-primary btn-lg">                            <button type="submit" class="btn btn-primary btn-lg">
+                            <button type="submit" class="btn btn-primary btn-lg">                         
 
-                                Create My Diary                                Create My Diary
+                                Create My Diary                             
 
-                            </button>                            </button>
+                            </button>                          
 
-                        </div>                        </div>
+                        </div>                    
 
-                    </form>                    </form>
+                    </form>                 
 
-                </div>                </div>
+                </div>              
 
-            </section>            </section>
-
-
+            </section>           
 
 
-            <section id="unlockSection" class="section hidden">            <section id="unlockSection" class="section hidden">
 
-                <div class="card" style="max-width: 600px; margin: 0 auto;">                <div class="card" style="max-width: 600px; margin: 0 auto;">
 
-                    <div class="card-header">                    <div class="card-header">
+            <section id="unlockSection" class="section hidden">          
 
-                        <h2 class="card-title">                        <h2 class="card-title">
+                <div class="card" style="max-width: 600px; margin: 0 auto;">            
 
-                            <span>🔓</span>                            <span>🔓</span>
+                    <div class="card-header">                 
 
-                            Unlock Your Diary                            Unlock Your Diary
+                        <h2 class="card-title">                   
 
-                        </h2>                        </h2>
+                            <span>🔓</span>                         
 
-                        <p class="card-description">                        <p class="card-description">
+                            Unlock Your Diary                        
 
-                            Enter your secret phrase to access your diary entries                            Enter your secret phrase to access your diary entries
+                        </h2>                     
 
-                        </p>                        </p>
+                        <p class="card-description">                      
 
-                    </div>                    </div>
+                            Enter your secret phrase to access your diary entries                   
+
+                        </p>                     
+
+                    </div>                  
 
                                         
 
-                    <form id="unlockForm">                    <form id="unlockForm">
+                    <form id="unlockForm">                 
 
-                        <div class="form-group">                        <div class="form-group">
+                        <div class="form-group">                     
 
-                            <label for="unlockPhrase" class="form-label">                            <label for="unlockPhrase" class="form-label">
+                            <label for="unlockPhrase" class="form-label">                       
 
-                                Secret Phrase                                Secret Phrase
+                                Secret Phrase                              
 
-                            </label>                            </label>
+                            </label>                          
 
-                            <input                            <input
+                            <input                          
 
-                                type="password"                                type="password"
+                                type="password"                               
 
-                                id="unlockPhrase"                                id="unlockPhrase"
+                                id="unlockPhrase"                              
 
-                                class="form-input"                                class="form-input"
+                                class="form-input"                               
 
-                                placeholder="Enter your secret phrase..."                                placeholder="Enter your secret phrase..."
+                                placeholder="Enter your secret phrase..."                           
 
-                                required                                required
+                                required                             
 
-                            />                            />
+                            />                          
 
-                        </div>                        </div>
+                        </div>                      
 
                                             <button id="unlockBtn">Unlock</button>
 
