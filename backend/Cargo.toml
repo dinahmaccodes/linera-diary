@@ -1,0 +1,33 @@
+[package]
+name = "diary-backend"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+# Linera dependencies
+linera-sdk = { workspace = true }
+linera-views = { workspace = true }
+
+# Async and GraphQL
+async-graphql = { workspace = true }
+async-trait = { workspace = true }
+
+# Serialization
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Error handling
+thiserror = { workspace = true }
+
+# Hashing
+sha2 = { workspace = true }
+
+[dev-dependencies]
+linera-sdk = { git = "https://github.com/linera-io/linera-protocol.git", branch = "main", features = ["test", "wasmer"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
+
+[lib]
+crate-type = ["cdylib", "rlib"]

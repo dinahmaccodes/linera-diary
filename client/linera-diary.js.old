@@ -1,0 +1,405 @@
+// Linera Diary - Direct GraphQL Integration
+import { config } from "./config.js";
+
+// DOM Elements
+const statusEl = document.getElementById("status");
+const initSection = document.getElementById("initSection");
+const diarySection = document.getElementById("diarySection");
+const secretPhraseInput = document.getElementById("secretPhrase");
+const initBtn = document.getElementById("initBtn");
+const unlockPhraseInput = document.getElementById("unlockPhrase");
+const unlockBtn = document.getElementById("unlockBtn");
+const entriesList = document.getElementById("entriesList");
+const newEntrySection = document.getElementById("newEntrySection");
+const entryTitleInput = document.getElementById("entryTitle");
+const entryContentInput = document.getElementById("entryContent");
+const saveEntryBtn = document.getElementById("saveEntryBtn");
+const activityLogEl = document.getElementById("activityLog");
+
+// State
+let activityHistory = [];
+let isConnected = false;
+let isInitialized = false;
+let currentSecretPhrase = "";
+
+// Initialize
+async function init() {
+    showStatus("Connecting to Linera service...", "info");
+    
+    try {
+        // Test connection by checking if diary is initialized
+        await checkDiaryStatus();
+        isConnected = true;
+        showStatus("✓ Connected to Linera", "success");
+        addActivity("Connected to Linera service");
+    } catch (error) {
+        console.error("Failed to connect:", error);
+        showStatus("⚠ Connection failed - Demo mode", "warning");
+        addActivity("Running in demo mode (no blockchain)");
+    }
+}
+
+// Check if diary is already initialized
+async function checkDiaryStatus() {
+    const query = `
+        query {
+            isInitialized
+        }
+    `;
+    
+    try {
+        const response = await fetch(config.graphqlUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.data && result.data.isInitialized !== undefined) {
+            isInitialized = result.data.isInitialized;
+            
+            if (isInitialized) {
+                initSection.style.display = "none";
+                diarySection.style.display = "block";
+                newEntrySection.style.display = "none"; // Hidden until unlocked
+                addActivity("Diary is already initialized");
+            } else {
+                initSection.style.display = "block";
+                diarySection.style.display = "none";
+                addActivity("Diary needs to be initialized");
+            }
+        }
+        
+        return result.data;
+    } catch (error) {
+        console.error("Error checking diary status:", error);
+        // If error, assume not initialized
+        initSection.style.display = "block";
+        diarySection.style.display = "none";
+        throw error;
+    }
+}
+
+// Initialize Diary
+async function initializeDiary() {
+    const secretPhrase = secretPhraseInput.value.trim();
+    
+    if (!secretPhrase || secretPhrase.length < 8) {
+        alert("Secret phrase must be at least 8 characters");
+        return;
+    }
+    
+    initBtn.disabled = true;
+    initBtn.textContent = "Initializing...";
+    
+    try {
+        // Hash the secret phrase (simple hash for demo - use crypto in production)
+        const hash = await hashString(secretPhrase);
+        
+        const mutation = `
+            mutation {
+                initialize(secretPhraseHash: ${JSON.stringify(hash)})
+            }
+        `;
+        
+        await executeGraphQL(mutation);
+        
+        addActivity("Diary initialized successfully");
+        showStatus("✓ Diary created!", "success");
+        
+        // Switch to diary view
+        isInitialized = true;
+        initSection.style.display = "none";
+        diarySection.style.display = "block";
+        newEntrySection.style.display = "none";
+        
+        // Clear input
+        secretPhraseInput.value = "";
+        
+    } catch (error) {
+        console.error("Failed to initialize diary:", error);
+        alert("Failed to initialize diary: " + error.message);
+        showStatus("⚠ Initialization failed", "error");
+    } finally {
+        initBtn.disabled = false;
+        initBtn.textContent = "Create Diary";
+    }
+}
+
+// Unlock Diary
+async function unlockDiary() {
+    const secretPhrase = unlockPhraseInput.value.trim();
+    
+    if (!secretPhrase) {
+        alert("Please enter your secret phrase");
+        return;
+    }
+    
+    unlockBtn.disabled = true;
+    unlockBtn.textContent = "Unlocking...";
+    
+    try {
+        // Verify the secret phrase by attempting to query entries
+        // In a real app, you'd verify the hash matches
+        currentSecretPhrase = secretPhrase;
+        
+        await loadEntries();
+        
+        addActivity("Diary unlocked successfully");
+        showStatus("✓ Diary unlocked!", "success");
+        
+        // Show new entry form
+        newEntrySection.style.display = "block";
+        unlockPhraseInput.value = "";
+        
+    } catch (error) {
+        console.error("Failed to unlock diary:", error);
+        alert("Failed to unlock diary. Check your secret phrase.");
+        currentSecretPhrase = "";
+    } finally {
+        unlockBtn.disabled = false;
+        unlockBtn.textContent = "Unlock";
+    }
+}
+
+// Load Diary Entries
+async function loadEntries() {
+    const query = `
+        query {
+            entries {
+                id
+                timestamp
+                title
+                content
+                owner
+            }
+        }
+    `;
+    
+    try {
+        const response = await fetch(config.graphqlUrl, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ query }),
+        });
+        
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        
+        const result = await response.json();
+        
+        if (result.errors) {
+            console.error("GraphQL errors:", result.errors);
+            throw new Error(result.errors[0].message);
+        }
+        
+        if (result.data && result.data.entries) {
+            displayEntries(result.data.entries);
+            addActivity(`Loaded ${result.data.entries.length} entries`);
+        }
+        
+    } catch (error) {
+        console.error("Error loading entries:", error);
+        entriesList.innerHTML = `<p class="error">Failed to load entries: ${error.message}</p>`;
+    }
+}
+
+// Display Entries
+function displayEntries(entries) {
+    if (!entries || entries.length === 0) {
+        entriesList.innerHTML = '<p class="empty">No entries yet. Create your first entry below!</p>';
+        return;
+    }
+    
+    // Sort by timestamp (newest first)
+    const sortedEntries = [...entries].sort((a, b) => b.timestamp - a.timestamp);
+    
+    entriesList.innerHTML = sortedEntries
+        .map(
+            (entry) => `
+        <div class="entry-card">
+            <div class="entry-header">
+                <h3>${escapeHtml(entry.title)}</h3>
+                <span class="entry-date">${formatTimestamp(entry.timestamp)}</span>
+            </div>
+            <div class="entry-content">
+                ${escapeHtml(entry.content)}
+            </div>
+        </div>
+    `
+        )
+        .join("");
+}
+
+// Save New Entry
+async function saveEntry() {
+    const title = entryTitleInput.value.trim();
+    const content = entryContentInput.value.trim();
+    
+    if (!title || !content) {
+        alert("Please fill in both title and content");
+        return;
+    }
+    
+    if (!currentSecretPhrase) {
+        alert("Please unlock diary first");
+        return;
+    }
+    
+    saveEntryBtn.disabled = true;
+    saveEntryBtn.textContent = "Saving...";
+    
+    try {
+        const mutation = `
+            mutation {
+                addEntry(
+                    secretPhrase: ${JSON.stringify(currentSecretPhrase)},
+                    title: ${JSON.stringify(title)},
+                    content: ${JSON.stringify(content)}
+                )
+            }
+        `;
+        
+        await executeGraphQL(mutation);
+        
+        addActivity(`New entry added: "${title}"`);
+        showStatus("✓ Entry saved!", "success");
+        
+        // Clear form
+        entryTitleInput.value = "";
+        entryContentInput.value = "";
+        
+        // Reload entries
+        await loadEntries();
+        
+    } catch (error) {
+        console.error("Failed to save entry:", error);
+        alert("Failed to save entry: " + error.message);
+        showStatus("⚠ Save failed", "error");
+    } finally {
+        saveEntryBtn.disabled = false;
+        saveEntryBtn.textContent = "Save Entry";
+    }
+}
+
+// Execute GraphQL mutation/query
+async function executeGraphQL(query) {
+    const response = await fetch(config.graphqlUrl, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query }),
+    });
+    
+    if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const result = await response.json();
+    
+    if (result.errors) {
+        console.error("GraphQL errors:", result.errors);
+        throw new Error(result.errors[0].message);
+    }
+    
+    return result.data;
+}
+
+// Simple hash function (use proper crypto in production)
+async function hashString(str) {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(str);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+}
+
+// Add Activity to Log
+function addActivity(text) {
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString();
+    
+    activityHistory.unshift({ time: timeStr, text });
+    
+    // Keep only last 10 activities
+    if (activityHistory.length > 10) {
+        activityHistory = activityHistory.slice(0, 10);
+    }
+    
+    renderActivityLog();
+}
+
+// Render Activity Log
+function renderActivityLog() {
+    if (activityHistory.length === 0) {
+        activityLogEl.innerHTML = '<p class="empty">No activity yet</p>';
+        return;
+    }
+    
+    activityLogEl.innerHTML = activityHistory
+        .map(
+            (activity) => `
+        <div class="activity-item">
+            <span class="activity-time">${activity.time}</span>
+            <span class="activity-text">${activity.text}</span>
+        </div>
+    `
+        )
+        .join("");
+}
+
+// Show Status
+function showStatus(message, type = "info") {
+    statusEl.textContent = message;
+    statusEl.className = `status ${type}`;
+}
+
+// Helper: Format timestamp
+function formatTimestamp(timestamp) {
+    const date = new Date(Number(timestamp) / 1000); // Convert microseconds to milliseconds
+    return date.toLocaleDateString() + " " + date.toLocaleTimeString();
+}
+
+// Helper: Escape HTML
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Event Listeners
+initBtn.addEventListener("click", initializeDiary);
+unlockBtn.addEventListener("click", unlockDiary);
+saveEntryBtn.addEventListener("click", saveEntry);
+
+// Character counters
+entryTitleInput.addEventListener("input", (e) => {
+    const count = e.target.value.length;
+    const counter = document.getElementById("titleCount");
+    if (counter) counter.textContent = `${count}/100`;
+});
+
+entryContentInput.addEventListener("input", (e) => {
+    const count = e.target.value.length;
+    const counter = document.getElementById("contentCount");
+    if (counter) counter.textContent = `${count}/2000`;
+});
+
+// Initialize the app
+init();
+
+console.log("🚀 Linera Diary UI Ready!");
+console.log("GraphQL Endpoint:", config.graphqlUrl);
+console.log("Application ID:", config.applicationId);
+console.log("Chain ID:", config.chainId);

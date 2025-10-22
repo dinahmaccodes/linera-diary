@@ -1,0 +1,50 @@
+# Rust
+target/
+**/*.rs.bk
+*.pdb
+Cargo.lock
+
+# WASM
+*.wasm
+
+# Node.js / Frontend
+node_modules/
+dist/
+.env
+.env.local
+.env.production
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Linera
+.linera/
+~/.config/linera/
+
+# Test coverage
+coverage/
+*.profraw
+*.profdata
+
+# Build artifacts
+*.so
+*.dylib
+*.dll
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
