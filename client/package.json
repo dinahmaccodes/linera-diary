@@ -6,7 +6,8 @@
     "scripts": {
         "dev": "python3 -m http.server 8080",
         "start": "python3 -m http.server 8080",
-        "serve": "python3 -m http.server 8080"
+        "serve": "python3 -m http.server 8080",
+        "preview": "python3 -m http.server 3000"
     },
     "keywords": [
         "linera",
@@ -14,8 +15,15 @@
         "diary",
         "dapp",
         "web3",
-        "decentralized"
+        "decentralized",
+        "graphql",
+        "vanilla-js"
     ],
     "author": "Dinah Macaulay",
-    "license": "Apache-2.0"
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/dinahmaccodes/linera-diary"
+    },
+    "homepage": "https://github.com/dinahmaccodes/linera-diary#readme"
 }

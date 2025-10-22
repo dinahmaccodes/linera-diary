@@ -47,11 +47,21 @@ linera-diary/
 └── PROJECT_SUMMARY.md     # Project overview
 ```
 
+## 🔗 Deployment Information
+
+**Chain ID:** `1259e4132844b892fe0a1f7c687462d2aa15ad73b91fc53c8c734069b176168c`
+
+**Network:** Local Development (Linera v0.15.4)
+
+**Latest Block:** 
+- Timestamp: 2025-10-22 16:34:46.618443
+- Next Block Height: 0
+
 ## Prerequisites
 
 - Rust 1.75+ and Cargo
-- Linera CLI tools
-- Node.js 18+ and npm/yarn (for frontend)
+- Linera CLI tools (v0.15.4)
+- Python 3 (for simple HTTP server)
 
 ## Quick Start
 
