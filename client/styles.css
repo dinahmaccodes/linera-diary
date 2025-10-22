@@ -1,5 +1,6 @@
 /* ==========================================
-   Linera Diary - Modern Design System
+   Linera Diary - Enhanced Design System
+   Based on Modern Portfolio Design Patterns
    ========================================== */
 
 /* ==========================================
@@ -7,11 +8,11 @@
    ========================================== */
 
 :root {
-  /* Primary Colors */
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --primary-light: rgba(99, 102, 241, 0.1);
-  --primary-glow: rgba(99, 102, 241, 0.5);
+  /* Primary Colors - Indigo/Purple Theme */
+  --primary: #667eea;
+  --primary-hover: #764ba2;
+  --primary-light: rgba(102, 126, 234, 0.1);
+  --primary-glow: rgba(102, 126, 234, 0.5);
   
   /* Backgrounds */
   --background: #ffffff;
@@ -215,29 +216,33 @@ body {
 }
 
 .hero-title {
-  font-size: 2.5rem;
+  font-size: clamp(2.25rem, 5vw, 3.75rem); /* Responsive 36px - 60px */
   font-weight: 700;
-  line-height: 1.2;
+  line-height: 1.25;
   margin-bottom: var(--spacing-md);
   background: linear-gradient(135deg, var(--primary), var(--primary-hover));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: fadeInUp 0.6s ease;
 }
 
 .hero-subtitle {
-  font-size: 1.25rem;
+  font-size: clamp(1.25rem, 3vw, 1.875rem); /* Responsive 20px - 30px */
+  font-weight: 600;
   color: var(--muted-foreground);
   margin-bottom: var(--spacing-lg);
   line-height: 1.5;
+  animation: fadeInUp 0.6s ease 0.1s backwards;
 }
 
 .hero-description {
-  font-size: 1rem;
+  font-size: 1.125rem; /* 18px */
   color: var(--muted-foreground);
-  max-width: 600px;
+  max-width: 36rem; /* 576px */
   margin: 0 auto var(--spacing-xl);
-  line-height: 1.625;
+  line-height: 1.625; /* relaxed leading */
+  animation: fadeInUp 0.6s ease 0.2s backwards;
 }
 
 /* Responsive Hero */
@@ -262,12 +267,31 @@ body {
   padding: var(--spacing-xl);
   transition: all var(--transition-slow);
   box-shadow: var(--shadow-sm);
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--primary-hover));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-slow);
 }
 
 .card:hover {
   border-color: var(--primary);
   box-shadow: var(--shadow-glow);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+}
+
+.card:hover::before {
+  transform: scaleX(1);
 }
 
 .card-header {
@@ -408,15 +432,31 @@ body {
 
 /* Primary Button */
 .btn-primary {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
   color: var(--primary-foreground);
-  border: 1px solid var(--primary);
+  border: 1px solid transparent;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left var(--transition-slower);
+}
+
+.btn-primary:hover::before {
+  left: 100%;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--primary-hover);
-  box-shadow: var(--shadow-lg);
-  transform: translateY(-1px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
 }
 
 /* Outline Button */
@@ -424,12 +464,14 @@ body {
   background: transparent;
   color: var(--foreground);
   border: 1px solid var(--border);
+  transition: all var(--transition-slow);
 }
 
 .btn-outline:hover:not(:disabled) {
   border-color: var(--primary);
   background: var(--primary-light);
   color: var(--primary);
+  transform: translateY(-1px);
 }
 
 /* Ghost Button */
@@ -495,12 +537,12 @@ body {
 .form-input,
 .form-textarea {
   width: 100%;
-  padding: var(--spacing-sm) var(--spacing-md);
-  font-size: 0.875rem;
+  padding: 0.875rem 1rem;
+  font-size: 1rem;
   font-family: inherit;
   background: var(--background);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   color: var(--foreground);
   transition: all var(--transition-base);
 }
@@ -510,12 +552,13 @@ body {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 3px var(--primary-light);
+  transform: translateY(-1px);
 }
 
 .form-textarea {
   resize: vertical;
-  min-height: 120px;
-  line-height: 1.5;
+  min-height: 150px;
+  line-height: 1.625;
 }
 
 .form-input::placeholder,
@@ -540,19 +583,21 @@ body {
    ========================================== */
 
 .status {
-  padding: var(--spacing-md) var(--spacing-lg);
-  border-radius: var(--radius-md);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-lg);
+  border-left: 4px solid;
   margin-bottom: var(--spacing-lg);
   font-size: 0.875rem;
   display: flex;
   align-items: center;
   gap: var(--spacing-sm);
-  animation: slideIn var(--transition-slow) ease-out;
+  animation: slideInDown 0.3s ease;
+  font-weight: 500;
 }
 
 .status-success {
   background: rgba(16, 185, 129, 0.1);
-  border: 1px solid var(--success);
+  border-color: var(--success);
   color: var(--success);
 }
 
@@ -876,4 +921,125 @@ body {
     page-break-inside: avoid;
     border: 1px solid #ccc;
   }
+}
+
+/* ==========================================
+   ANIMATIONS & KEYFRAMES
+   ========================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Loading Spinner */
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid var(--muted-bg);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin: 2rem auto;
+}
+
+/* Skeleton Loader */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--muted-bg) 0%,
+    var(--primary-light) 50%,
+    var(--muted-bg) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+  min-height: 1rem;
+}
+
+/* Entry Card Animation - Stagger Effect */
+.entry-card {
+  animation: fadeInUp 0.5s ease backwards;
+}
+
+.entry-card:nth-child(1) { animation-delay: 0.1s; }
+.entry-card:nth-child(2) { animation-delay: 0.2s; }
+.entry-card:nth-child(3) { animation-delay: 0.3s; }
+.entry-card:nth-child(4) { animation-delay: 0.4s; }
+.entry-card:nth-child(5) { animation-delay: 0.5s; }
+.entry-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* Status Message Animation */
+.status {
+  animation: slideInDown 0.3s ease;
+}
+
+/* Modal Animation */
+.modal-overlay {
+  animation: fadeIn 0.2s ease;
+}
+
+.modal-content {
+  animation: scaleIn 0.3s ease;
 }
