@@ -41,9 +41,8 @@ Your complete Linera diary application has been created successfully!
 
 ### Documentation
 ✅ **README.md** - Main documentation
-✅ **DEVELOPMENT.md** - Developer guide
 ✅ **API.md** - Complete GraphQL API reference
-✅ **LICENSE** - MIT license
+✅ **DEPLOYMENT.md** - Deployment instructions
 
 ## 🚀 Quick Start
 

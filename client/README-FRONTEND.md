@@ -206,7 +206,7 @@ Frontend contributions welcome! Areas for improvement:
 
 ## 📄 License
 
-Apache-2.0
+Open source - free to use, modify, and distribute.
 
 ## 🔗 Links
 
