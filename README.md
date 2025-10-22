@@ -11,6 +11,9 @@ A simple, educational dApp demonstrating:
 - **Vanilla JavaScript frontend** - no complex frameworks
 - **Secret phrase authentication** - your data, your keys
 
+## Live Demo:
+https://linera-diary.netlify.app
+
 ## 🌟 Features
 
 - 🔐 **Secret Phrase Protection**: Initialize your diary with a secure secret phrase
