@@ -5,6 +5,7 @@ A secure, decentralized diary application built on the Linera blockchain. Store 
 ## 🎯 What This Is
 
 A simple, educational dApp demonstrating:
+
 - **Smart contract development** with Linera SDK
 - **GraphQL API** for blockchain communication
 - **Vanilla JavaScript frontend** - no complex frameworks
@@ -53,7 +54,8 @@ linera-diary/
 
 **Network:** Local Development (Linera v0.15.4)
 
-**Latest Block:** 
+**Latest Block:**
+
 - Timestamp: 2025-10-22 16:34:46.618443
 - Next Block Height: 0
 
@@ -177,16 +179,19 @@ cd frontend && npm run dev
 ### Backend Components
 
 **State Management (`state.rs`)**
+
 - Uses `linera-views` for persistent storage
 - `RegisterView` for secret phrase and owner
 - `MapView` for diary entries indexed by timestamp
 
 **Contract (`contract.rs`)**
+
 - Handles on-chain execution
 - Validates secret phrases
 - Manages entry creation
 
 **Service (`service.rs`)**
+
 - Provides GraphQL API
 - Handles queries and read operations
 - Schedules operations through mutations
@@ -194,6 +199,7 @@ cd frontend && npm run dev
 ### Frontend
 
 Built with:
+
 - React + TypeScript
 - Vite for fast builds
 - GraphQL Client (@apollo/client)
@@ -216,6 +222,7 @@ linera publish-and-create \
 ### Mainnet Deployment
 
 ⚠️ Before mainnet deployment:
+
 1. Complete thorough testing
 2. Security audit
 3. Review all operations
@@ -224,6 +231,7 @@ linera publish-and-create \
 ## Contributing
 
 Contributions are welcome! Please:
+
 1. Fork the repository
 2. Create a feature branch
 3. Add tests for new features
@@ -231,7 +239,7 @@ Contributions are welcome! Please:
 
 ## License
 
-MIT License - See LICENSE file for details
+This project is open source and available for anyone to use, modify, and distribute.
 
 ## Resources
 
@@ -242,6 +250,7 @@ MIT License - See LICENSE file for details
 ## Support
 
 For issues and questions:
+
 - Open an issue on GitHub
 - Join the Linera Discord community
 
