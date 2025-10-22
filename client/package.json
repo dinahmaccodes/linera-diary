@@ -1,9 +1,10 @@
 {
     "name": "linera-diary-client",
     "version": "1.0.0",
-    "description": "Linera Diary - Simple frontend for secret diary dApp",
+    "description": "Modern web frontend for Linera Diary dApp - A secure, decentralized diary on the blockchain",
     "type": "module",
     "scripts": {
+        "dev": "python3 -m http.server 8080",
         "start": "python3 -m http.server 8080",
         "serve": "python3 -m http.server 8080"
     },
@@ -11,8 +12,10 @@
         "linera",
         "blockchain",
         "diary",
-        "dapp"
+        "dapp",
+        "web3",
+        "decentralized"
     ],
-    "author": "",
+    "author": "Dinah Macaulay",
     "license": "Apache-2.0"
 }

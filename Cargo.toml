@@ -2,7 +2,12 @@
 members = ["backend"]
 resolver = "2"
 
-
+[workspace.package]
+version = "0.1.0"
+authors = ["Linera Diary Contributors"]
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/dinahmaccodes/linera-diary"
 
 [workspace.dependencies]
 # Linera dependencies
