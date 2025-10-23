@@ -53,14 +53,26 @@ linera-diary/
 
 ## 🔗 Deployment Information
 
+### Testnet (testnet-conway)
+
+**Chain ID:** `8fd4233c5d03554f87d47a711cf70619727ca3d148353446cab81fb56922c9b7`
+
+**Network:** Linera Testnet Conway (Linera v0.15.4 - testnet_conway branch)
+
+**Faucet:** https://faucet.testnet-conway.linera.net
+
+**Latest Block:**
+- Block Hash: `e1435b551a5ba4c5b16e49a119074e8d8c27511d6f9f7bfc2c21faf06500ff84`
+- Timestamp: 2025-10-10 03:53:48.598051
+- Next Block Height: 39
+
+**Status:** Chain obtained, pending application deployment
+
+### Previous Local Deployment
+
 **Chain ID:** `1259e4132844b892fe0a1f7c687462d2aa15ad73b91fc53c8c734069b176168c`
 
 **Network:** Local Development (Linera v0.15.4)
-
-**Latest Block:**
-
-- Timestamp: 2025-10-22 16:34:46.618443
-- Next Block Height: 0
 
 ## Prerequisites
 
