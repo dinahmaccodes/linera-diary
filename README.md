@@ -53,26 +53,22 @@ linera-diary/
 
 ## 🔗 Deployment Information
 
-### Testnet (testnet-conway)
+### Testnet Configuration
 
+**Network:** Linera Testnet Conway  
+**Linera Version:** v0.15.4 (testnet_conway branch)  
+**Faucet:** <https://faucet.testnet-conway.linera.net>  
 **Chain ID:** `8fd4233c5d03554f87d47a711cf70619727ca3d148353446cab81fb56922c9b7`
 
-**Network:** Linera Testnet Conway (Linera v0.15.4 - testnet_conway branch)
+**Status:** ⚠️ Testnet faucet provides read-only chains. Working on obtaining writable chain for deployment.
 
-**Faucet:** https://faucet.testnet-conway.linera.net
+**Known Issue:** The testnet-conway faucet currently provides shared chains without write permissions. To deploy applications, you need to:
 
-**Latest Block:**
-- Block Hash: `e1435b551a5ba4c5b16e49a119074e8d8c27511d6f9f7bfc2c21faf06500ff84`
-- Timestamp: 2025-10-10 03:53:48.598051
-- Next Block Height: 39
+1. Generate a key pair with `linera keygen`
+2. Request a dedicated chain from the faucet API
+3. Configure wallet with proper ownership
 
-**Status:** Chain obtained, pending application deployment
-
-### Previous Local Deployment
-
-**Chain ID:** `1259e4132844b892fe0a1f7c687462d2aa15ad73b91fc53c8c734069b176168c`
-
-**Network:** Local Development (Linera v0.15.4)
+For updates, check the [Linera Discord](https://discord.gg/linera)
 
 ## Prerequisites
 
@@ -82,38 +78,34 @@ linera-diary/
 
 ## Quick Start
 
-### 1. Build the Backend
+### 1. Build the Contract
 
 ```bash
-# Build the Linera application
-cargo build --release --target wasm32-unknown-unknown
-
-# Or build in the backend directory
-cd backend
-cargo build --release --target wasm32-unknown-unknown
+./build.sh
 ```
 
-### 2. Publish to Linera
+### 2. Deploy to Testnet (When Available)
 
 ```bash
-# Publish the application
 linera publish-and-create \
-  target/wasm32-unknown-unknown/release/diary_backend_{contract,service}.wasm \
-  --json-parameters '{"secret_phrase_hash": "your-hashed-phrase"}'
+  target/wasm32-unknown-unknown/release/diary_backend.wasm \
+  target/wasm32-unknown-unknown/release/diary_backend.wasm
 ```
 
-### 3. Run Tests
+### 3. Start GraphQL Service
+
+```bash
+linera service --port 8080
+```
+
+### 4. Update Frontend Configuration
+
+Edit `client/config.js` with your Application ID from step 2.
+
+### 5. Run Tests
 
 ```bash
 cargo test
-```
-
-### 4. Start Frontend
-
-```bash
-cd frontend
-npm install
-npm run dev
 ```
 
 ## Usage
@@ -149,7 +141,7 @@ query {
     content
     timestamp
   }
-  
+
   entry(id: 1) {
     title
     content
@@ -179,14 +171,16 @@ cargo test --test single_chain
 ### Development Mode
 
 ```bash
-# Start local Linera network
-linera net up
+# Build contract
+./build.sh
 
-# Watch mode for backend
-cargo watch -x build
+# Deploy to testnet
+linera publish-and-create \
+  target/wasm32-unknown-unknown/release/diary_backend.wasm \
+  target/wasm32-unknown-unknown/release/diary_backend.wasm
 
-# Development server for frontend
-cd frontend && npm run dev
+# Start GraphQL service
+linera service --port 8080
 ```
 
 ## Architecture
@@ -215,23 +209,28 @@ cd frontend && npm run dev
 
 Built with:
 
-- React + TypeScript
-- Vite for fast builds
-- GraphQL Client (@apollo/client)
-- TailwindCSS for styling
+- Vanilla JavaScript (no framework)
+- Modern ES6+ modules
+- Native Fetch API for GraphQL
+- CSS3 for styling
 
 ## Deployment
 
 ### Testnet Deployment
 
 ```bash
-# Set your chain ID
-export CHAIN_ID="your-chain-id"
+# Build the contract
+./build.sh
 
-# Publish application
+# Deploy to testnet (requires writable chain)
 linera publish-and-create \
-  target/wasm32-unknown-unknown/release/diary_backend_{contract,service}.wasm \
-  --required-application-ids $CHAIN_ID
+  target/wasm32-unknown-unknown/release/diary_backend.wasm \
+  target/wasm32-unknown-unknown/release/diary_backend.wasm
+
+# Start service
+linera service --port 8080
+
+# Update client/config.js with your Application ID
 ```
 
 ### Mainnet Deployment

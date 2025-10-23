@@ -1,517 +1,430 @@
-<!DOCTYPE html><!DOCTYPE html>
-
-<html lang="en"><html lang="en">
-
-<head><head>
-
-    <meta charset="UTF-8" />   
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
-
-    <meta name="description" content="Your private diary on the Linera blockchain - secure, decentralized, and yours forever." />    
-
-    <title>Linera Diary - Your Secret Diary on Blockchain</title>   
-
-    <link rel="stylesheet" href="styles.css" />    
-
-</head></head>
-
-<body><body>
-
-
-
-    <header class="header">    
-
-        <nav class="nav-container">        
-
-            <a href="#" class="logo">            
-
-                <span class="logo-icon">📔</span>                
-
-                <span>Linera Diary</span>               
-
-            </a>                    
-
-            <div class="nav-actions">           
-
-                <button id="lockBtn" class="btn btn-sm btn-outline hidden">              
-
-                    🔒 Lock Diary                
-
-                </button>             
-
-                <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">             
-
-                    <span id="themeIcon">🌙</span>                 
-
-                </button>               
-
-            </div>         
-
-        </nav>      
-
-    </header>   
-
-
-
-    <main class="main-content">   
-
-        <div class="container">       
-
-            <!-- Status Messages -->           
-
-            <div id="status" class="status status-info hidden">          
-
-                Connecting...             
-
-            </div>           
-
-
-            <section class="hero">          
-
-                <h1 class="hero-title">Your Secret Diary on the Blockchain</h1>             
-
-                <p class="hero-subtitle">Private. Secure. Decentralized. Forever Yours.</p>             
-
-                <p class="hero-description">                <p class="hero-description">
-
-                    Store your thoughts, memories, and dreams on the Linera blockchain.                  
-
-                    Your entries are encrypted and only you can read them.                
-
-                </p>            
-
-            </section>            
-
-
-            <section id="initSection" class="section hidden">         
-
-                <div class="card" style="max-width: 600px; margin: 0 auto;">              
-
-                    <div class="card-header">                  
-
-                        <h2 class="card-title">                       
-
-                            <span>🔐</span>                            
-
-                            Create Your Secret Diary                        
-
-                        </h2>                      
-
-                        <p class="card-description">                      
-
-                            Choose a strong secret phrase to protect your diary.                        
-
-                            This phrase will be required to write new entries and read existing ones.                        
-
-                            Remember it well - it cannot be recovered!                          
-
-                        </p>                  
-
-                    </div>                   
-
-                                        
-
-                    <form id="initForm">                
-
-                        <div class="form-group">               
-
-                            <label for="secretPhrase" class="form-label">                          
-
-                                Secret Phrase (minimum 8 characters)                           
-
-                            </label>                       
-
-                            <input                            
-
-                                type="password"                               
-
-                                id="secretPhrase"                             
-
-                                class="form-input"                              
-
-                                placeholder="Enter a memorable secret phrase..."                            
-
-                                minlength="8"                             
-
-                                required                              
-
-                            />                        
-
-                            <p class="form-helper">                         
-
-                                💡 Tip: Use a phrase you'll remember but others can't guess                             
-
-                            </p>                          
-
-                        </div>                      
-
-                                                
-
-                        <div class="card-footer">                     
-
-                            <button type="submit" class="btn btn-primary btn-lg">                         
-
-                                Create My Diary                             
-
-                            </button>                          
-
-                        </div>                    
-
-                    </form>                 
-
-                </div>              
-
-            </section>           
-
-
-
-
-            <section id="unlockSection" class="section hidden">          
-
-                <div class="card" style="max-width: 600px; margin: 0 auto;">            
-
-                    <div class="card-header">                 
-
-                        <h2 class="card-title">                   
-
-                            <span>🔓</span>                         
-
-                            Unlock Your Diary                        
-
-                        </h2>                     
-
-                        <p class="card-description">                      
-
-                            Enter your secret phrase to access your diary entries                   
-
-                        </p>                     
-
-                    </div>                  
-
-                                        
-
-                    <form id="unlockForm">                 
-
-                        <div class="form-group">                     
-
-                            <label for="unlockPhrase" class="form-label">                       
-
-                                Secret Phrase                              
-
-                            </label>                          
-
-                            <input                          
-
-                                type="password"                               
-
-                                id="unlockPhrase"                              
-
-                                class="form-input"                               
-
-                                placeholder="Enter your secret phrase..."                           
-
-                                required                             
-
-                            />                          
-
-                        </div>                      
-
-                                            <button id="unlockBtn">Unlock</button>
-
-                        <div class="card-footer">                </div>
-
-                            <button type="submit" class="btn btn-primary btn-lg">
-
-                                Unlock Diary                <!-- Entries Display -->
-
-                            </button>                <div class="card">
-
-                        </div>                    <h2>📖 Your Entries</h2>
-
-                    </form>                    <div id="entriesList" class="entries-list">
-
-                </div>                        <p class="empty">Unlock your diary to view entries</p>
-
-            </section>                    </div>
-
-                </div>
-
-                <div id="newEntrySection" class="card" style="display: none">
-
-            <section id="diarySection" class="section hidden">                    <h2>✍️ New Entry</h2>
-
-                <!-- Search and Add Entry -->                    <div class="form-group">
-
-                <div class="flex items-center justify-between mb-4" style="margin-bottom: var(--spacing-xl);">                        <label for="entryTitle">Title</label>
-
-                    <div style="flex: 1; max-width: 400px;">                        <input
-
-                        <input                            type="text"
-
-                            type="text"                            id="entryTitle"
-
-                            id="searchInput"                            placeholder="Entry title..."
-
-                            class="form-input"                            maxlength="100"
-
-                            placeholder="🔍 Search entries..."                        />
-
-                        />                        <div class="char-count" id="titleCount">0/100</div>
-
-                    </div>                    </div>
-
-                    <button class="btn btn-primary" onclick="showModal('newEntryModal')">                    <div class="form-group">
-
-                        ✍️ New Entry                        <label for="entryContent">Content</label>
-
-                    </button>                        <textarea
-
-                </div>                            id="entryContent"
-
-                            placeholder="Write your thoughts..."
-
-                <!-- Loading State -->                            maxlength="2000"
-
-                <div class="loading hidden">                        ></textarea>
-
-                    <div class="spinner"></div>                        <div class="char-count" id="contentCount">0/2000</div>
-
-                    <p class="loading-text">Loading your entries...</p>                    </div>
-
-                </div>                    <button id="saveEntryBtn">Save Entry</button>
-
-                </div>
-
-                <!-- Entries Grid -->            </div>
-
-                <div id="entriesGrid" class="entries-grid"></div>
-
-            <!-- Activity Log -->
-
-                <!-- Empty State -->            <div class="activity-log">
-
-                <div id="emptyState" class="empty-state hidden">                <h3>📊 Activity Log</h3>
-
-                    <div class="empty-state-icon">📔</div>                <div id="activityLog">
-
-                    <h3 class="empty-state-title">No Entries Yet</h3>                    <p class="empty">No activity yet</p>
-
-                    <p class="empty-state-description">                </div>
-
-                        Start writing your first diary entry to begin your journey            </div>
-
-                    </p>
-
-                    <button class="btn btn-primary btn-lg" onclick="showModal('newEntryModal')">            <footer>
-
-                        ✍️ Write First Entry                <p>
-
-                    </button>                    Built on <strong>Linera Protocol</strong> | Secure Diary
-
-                </div>                    dApp
-
-            </section>                </p>
-
-        </div>            </footer>
-
-    </main>        </div>
-
-
-></html>
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Your private diary on the Linera blockchain - secure, decentralized, and yours forever."
+    />
+    <title>Linera Diary - Your Secret Diary on Blockchain</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="header">
+      <nav class="nav-container">
+        <a href="#" class="logo">
+          <span class="logo-icon">📔</span>
+          <span>Linera Diary</span>
+        </a>
+        <div class="nav-actions">
+          <button id="lockBtn" class="btn btn-sm btn-outline hidden">
+            🔒 Lock Diary
+          </button>
+          <button
+            id="themeToggle"
+            class="theme-toggle"
+            aria-label="Toggle theme"
+          >
+            <span id="themeIcon">🌙</span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="main-content">
+      <div class="container">
+        <!-- Status Messages -->
+        <div id="status" class="status status-info hidden">Connecting...</div>
+
+        <!-- Hero Section (shown on first visit) -->
+        <section class="hero">
+          <h1 class="hero-title">Your Secret Diary on the Blockchain</h1>
+          <p class="hero-subtitle">
+            Private. Secure. Decentralized. Forever Yours.
+          </p>
+          <p class="hero-description">
+            Store your thoughts, memories, and dreams on the Linera blockchain.
+            Your entries are encrypted and only you can read them.
+          </p>
+        </section>
+
+        <!-- Initialize Section (create secret phrase) -->
+        <section id="initSection" class="section hidden">
+          <div class="card" style="max-width: 600px; margin: 0 auto">
+            <div class="card-header">
+              <h2 class="card-title">
+                <span>🔐</span>
+                Create Your Secret Diary
+              </h2>
+              <p class="card-description">
+                Choose a strong secret phrase to protect your diary. This phrase
+                will be required to write new entries and read existing ones.
+                Remember it well - it cannot be recovered!
+              </p>
+            </div>
+
+            <form id="initForm">
+              <div class="form-group">
+                <label for="secretPhrase" class="form-label">
+                  Secret Phrase (minimum 8 characters)
+                </label>
+                <input
+                  type="password"
+                  id="secretPhrase"
+                  class="form-input"
+                  placeholder="Enter a memorable secret phrase..."
+                  minlength="8"
+                  required
+                />
+                <p class="form-helper">
+                  💡 Tip: Use a phrase you'll remember but others can't guess
+                </p>
+              </div>
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Create My Diary
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Unlock Section (for returning users) -->
+        <section id="unlockSection" class="section hidden">
+          <div class="card" style="max-width: 600px; margin: 0 auto">
+            <div class="card-header">
+              <h2 class="card-title">
+                <span>🔓</span>
+                Unlock Your Diary
+              </h2>
+              <p class="card-description">
+                Enter your secret phrase to access your diary entries
+              </p>
+            </div>
+
+            <form id="unlockForm">
+              <div class="form-group">
+                <label for="unlockPhrase" class="form-label">
+                  Secret Phrase
+                </label>
+                <input
+                  type="password"
+                  id="unlockPhrase"
+                  class="form-input"
+                  placeholder="Enter your secret phrase..."
+                  required
+                />
+              </div>
+
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary btn-lg">
+                  Unlock Diary
+                </button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Diary Section (shown after unlock/initialization) -->
+        <section id="diarySection" class="section hidden">
+          <!-- Search and Add Entry -->
+          <div
+            class="flex items-center justify-between mb-4"
+            style="margin-bottom: var(--spacing-xl)"
+          >
+            <div style="flex: 1; max-width: 400px">
+              <input
+                type="text"
+                id="searchInput"
+                class="form-input"
+                placeholder="🔍 Search entries..."
+              />
+            </div>
+            <button
+              class="btn btn-primary"
+              onclick="showModal('newEntryModal')"
+            >
+              ✍️ New Entry
+            </button>
+          </div>
+
+          <!-- Loading State -->
+          <div class="loading hidden">
+            <div class="spinner"></div>
+            <p class="loading-text">Loading your entries...</p>
+          </div>
+
+          <!-- Entries Grid -->
+          <div id="entriesGrid" class="entries-grid"></div>
+
+          <!-- Empty State -->
+          <div id="emptyState" class="empty-state hidden">
+            <div class="empty-state-icon">📔</div>
+            <h3 class="empty-state-title">No Entries Yet</h3>
+            <p class="empty-state-description">
+              Start writing your first diary entry to begin your journey
+            </p>
+            <button
+              class="btn btn-primary btn-lg"
+              onclick="showModal('newEntryModal')"
+            >
+              ✍️ Write First Entry
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
 
     <!-- New Entry Modal -->
-    <div id="newEntryModal" class="modal-overlay hidden" onclick="if(event.target === this) closeModal('newEntryModal')">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 class="modal-title">✍️ New Diary Entry</h2>
-                <button class="modal-close" onclick="closeModal('newEntryModal')" aria-label="Close">
-                    ✕
-                </button>
-            </div>
-            
-            <form id="newEntryForm">
-                <div class="modal-content">
-                    <div class="form-group">
-                        <label for="newEntryTitle" class="form-label">Title</label>
-                        <input
-                            type="text"
-                            id="newEntryTitle"
-                            class="form-input"
-                            placeholder="Give your entry a title..."
-                            required
-                        />
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="newEntryContent" class="form-label">Your Thoughts</label>
-                        <textarea
-                            id="newEntryContent"
-                            class="form-textarea"
-                            placeholder="Write your thoughts, feelings, or experiences..."
-                            rows="8"
-                            required
-                        ></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="newEntrySecret" class="form-label">Secret Phrase</label>
-                        <input
-                            type="password"
-                            id="newEntrySecret"
-                            class="form-input"
-                            placeholder="Enter your secret phrase to save..."
-                            required
-                        />
-                        <p class="form-helper">
-                            Required to encrypt and save your entry
-                        </p>
-                    </div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" onclick="closeModal('newEntryModal')">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        💾 Save Entry
-                    </button>
-                </div>
-            </form>
+    <div
+      id="newEntryModal"
+      class="modal-overlay hidden"
+      onclick="if(event.target === this) closeModal('newEntryModal')"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <h2 class="modal-title">✍️ New Diary Entry</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('newEntryModal')"
+            aria-label="Close"
+          >
+            ✕
+          </button>
         </div>
+
+        <form id="newEntryForm">
+          <div class="modal-content">
+            <div class="form-group">
+              <label for="newEntryTitle" class="form-label">Title</label>
+              <input
+                type="text"
+                id="newEntryTitle"
+                class="form-input"
+                placeholder="Give your entry a title..."
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="newEntryContent" class="form-label"
+                >Your Thoughts</label
+              >
+              <textarea
+                id="newEntryContent"
+                class="form-textarea"
+                placeholder="Write your thoughts, feelings, or experiences..."
+                rows="8"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="newEntrySecret" class="form-label"
+                >Secret Phrase</label
+              >
+              <input
+                type="password"
+                id="newEntrySecret"
+                class="form-input"
+                placeholder="Enter your secret phrase to save..."
+                required
+              />
+              <p class="form-helper">Required to encrypt and save your entry</p>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeModal('newEntryModal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">💾 Save Entry</button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <!-- View Entry Modal -->
-    <div id="viewEntryModal" class="modal-overlay hidden" onclick="if(event.target === this) closeModal('viewEntryModal')">
-        <div class="modal">
-            <div class="modal-header">
-                <div>
-                    <h2 class="modal-title" id="viewEntryTitle">Entry Title</h2>
-                    <p class="text-muted" style="font-size: 0.875rem; margin-top: 0.25rem;">
-                        <span id="viewEntryDate"></span>
-                    </p>
-                </div>
-                <button class="modal-close" onclick="closeModal('viewEntryModal')" aria-label="Close">
-                    ✕
-                </button>
-            </div>
-            
-            <div class="modal-content">
-                <div style="line-height: 1.75; white-space: pre-wrap;" id="viewEntryContent">
-                    Entry content will appear here...
-                </div>
-            </div>
-            
-            <div class="modal-footer">
-                <button class="btn btn-outline" onclick="closeModal('viewEntryModal')">
-                    Close
-                </button>
-            </div>
+    <div
+      id="viewEntryModal"
+      class="modal-overlay hidden"
+      onclick="if(event.target === this) closeModal('viewEntryModal')"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <div>
+            <h2 class="modal-title" id="viewEntryTitle">Entry Title</h2>
+            <p
+              class="text-muted"
+              style="font-size: 0.875rem; margin-top: 0.25rem"
+            >
+              <span id="viewEntryDate"></span>
+            </p>
+          </div>
+          <button
+            class="modal-close"
+            onclick="closeModal('viewEntryModal')"
+            aria-label="Close"
+          >
+            ✕
+          </button>
         </div>
+
+        <div class="modal-content">
+          <div
+            style="line-height: 1.75; white-space: pre-wrap"
+            id="viewEntryContent"
+          >
+            Entry content will appear here...
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button
+            class="btn btn-outline"
+            onclick="closeModal('viewEntryModal')"
+          >
+            Close
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- Edit Entry Modal -->
-    <div id="editEntryModal" class="modal-overlay hidden" onclick="if(event.target === this) closeModal('editEntryModal')">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 class="modal-title">✏️ Edit Entry</h2>
-                <button class="modal-close" onclick="closeModal('editEntryModal')" aria-label="Close">
-                    ✕
-                </button>
-            </div>
-            
-            <form id="editEntryForm">
-                <input type="hidden" id="editEntryId" />
-                
-                <div class="modal-content">
-                    <div class="form-group">
-                        <label for="editEntryTitle" class="form-label">Title</label>
-                        <input
-                            type="text"
-                            id="editEntryTitle"
-                            class="form-input"
-                            required
-                        />
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editEntryContent" class="form-label">Content</label>
-                        <textarea
-                            id="editEntryContent"
-                            class="form-textarea"
-                            rows="8"
-                            required
-                        ></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="editEntrySecret" class="form-label">Secret Phrase</label>
-                        <input
-                            type="password"
-                            id="editEntrySecret"
-                            class="form-input"
-                            placeholder="Enter your secret phrase to save changes..."
-                            required
-                        />
-                    </div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" onclick="closeModal('editEntryModal')">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-primary">
-                        💾 Save Changes
-                    </button>
-                </div>
-            </form>
+    <div
+      id="editEntryModal"
+      class="modal-overlay hidden"
+      onclick="if(event.target === this) closeModal('editEntryModal')"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <h2 class="modal-title">✏️ Edit Entry</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('editEntryModal')"
+            aria-label="Close"
+          >
+            ✕
+          </button>
         </div>
+
+        <form id="editEntryForm">
+          <input type="hidden" id="editEntryId" />
+
+          <div class="modal-content">
+            <div class="form-group">
+              <label for="editEntryTitle" class="form-label">Title</label>
+              <input
+                type="text"
+                id="editEntryTitle"
+                class="form-input"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="editEntryContent" class="form-label">Content</label>
+              <textarea
+                id="editEntryContent"
+                class="form-textarea"
+                rows="8"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="editEntrySecret" class="form-label"
+                >Secret Phrase</label
+              >
+              <input
+                type="password"
+                id="editEntrySecret"
+                class="form-input"
+                placeholder="Enter your secret phrase to save changes..."
+                required
+              />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeModal('editEntryModal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-primary">
+              💾 Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <!-- Delete Entry Modal -->
-    <div id="deleteEntryModal" class="modal-overlay hidden" onclick="if(event.target === this) closeModal('deleteEntryModal')">
-        <div class="modal">
-            <div class="modal-header">
-                <h2 class="modal-title">🗑️ Delete Entry</h2>
-                <button class="modal-close" onclick="closeModal('deleteEntryModal')" aria-label="Close">
-                    ✕
-                </button>
-            </div>
-            
-            <form id="deleteEntryForm">
-                <div class="modal-content">
-                    <p style="margin-bottom: var(--spacing-lg);">
-                        Are you sure you want to delete "<strong id="deleteEntryTitle"></strong>"?
-                        This action cannot be undone.
-                    </p>
-                    
-                    <div class="form-group">
-                        <label for="deleteEntrySecret" class="form-label">
-                            Secret Phrase (to confirm deletion)
-                        </label>
-                        <input
-                            type="password"
-                            id="deleteEntrySecret"
-                            class="form-input"
-                            placeholder="Enter your secret phrase..."
-                            required
-                        />
-                    </div>
-                </div>
-                
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline" onclick="closeModal('deleteEntryModal')">
-                        Cancel
-                    </button>
-                    <button type="submit" class="btn btn-destructive">
-                        🗑️ Delete Permanently
-                    </button>
-                </div>
-            </form>
+    <div
+      id="deleteEntryModal"
+      class="modal-overlay hidden"
+      onclick="if(event.target === this) closeModal('deleteEntryModal')"
+    >
+      <div class="modal">
+        <div class="modal-header">
+          <h2 class="modal-title">🗑️ Delete Entry</h2>
+          <button
+            class="modal-close"
+            onclick="closeModal('deleteEntryModal')"
+            aria-label="Close"
+          >
+            ✕
+          </button>
         </div>
+
+        <form id="deleteEntryForm">
+          <div class="modal-content">
+            <p style="margin-bottom: var(--spacing-lg)">
+              Are you sure you want to delete "<strong
+                id="deleteEntryTitle"
+              ></strong
+              >"? This action cannot be undone.
+            </p>
+
+            <div class="form-group">
+              <label for="deleteEntrySecret" class="form-label">
+                Secret Phrase (to confirm deletion)
+              </label>
+              <input
+                type="password"
+                id="deleteEntrySecret"
+                class="form-input"
+                placeholder="Enter your secret phrase..."
+                required
+              />
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-outline"
+              onclick="closeModal('deleteEntryModal')"
+            >
+              Cancel
+            </button>
+            <button type="submit" class="btn btn-destructive">
+              🗑️ Delete Permanently
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
 
     <script type="module" src="app.js"></script>
-</body>
+  </body>
 </html>
